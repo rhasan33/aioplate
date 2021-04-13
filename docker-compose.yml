@@ -1,0 +1,43 @@
+version: '3'
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile-dev
+    command: bash -c "gunicorn main:app --bind 0.0.0.0:8030 --worker-class aiohttp.GunicornWebWorker --access-logfile '-' --log-level debug --reload"
+    volumes:
+      - ./src:/app
+    ports:
+      - 8040:8030
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+      - redis
+  
+  db:
+    image: postgres:11.4-alpine
+    environment:
+      - POSTGRES_USER=sample_user
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=sample_db
+    ports:
+      - 5433:5432
+  
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6377:6379
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "8031:15672"
+      - "5672:5672"
+      - "5671:5671"
+    environment:
+      - RABBITMQ_DEFAULT_PASS=mypass
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_VHOST=myvhost
