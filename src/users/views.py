@@ -1,12 +1,12 @@
 from aiohttp import web
 
-from users.validators import user_create_validation
+from base.validators import create_request_validation
 from users.repositories import create_user
 from users.serializers import UserSerializer
 
 
 class UserListCreateView(web.View):
-    @user_create_validation
+    @create_request_validation
     async def post(self):
         request_body = await self.request.json()
         user = create_user(data=request_body)

@@ -6,7 +6,7 @@ from aiohttp import web
 from base.validation_obj import USER
 
 
-def user_create_validation(func: Callable):
+def create_request_validation(func: Callable):
     @functools.wraps(func)
     async def wrapper(cls, *args, **kwargs):
         body: Dict = await cls.request.json()
