@@ -10,8 +10,6 @@ from aiohttp.web_response import Response
 import aio_pika
 import aioredis
 
-from users.routes import user_routes
-
 from configs import DEBUG, RABBITMQ_URL, REDIS_HOST, db
 
 loop = asyncio.get_event_loop()
@@ -68,7 +66,6 @@ if DEBUG:
     logging.basicConfig(level=logging.DEBUG)
 
 app.add_routes([web.get('/', health_check)])
-app.add_routes(user_routes)
 
 if not DEBUG:
     run_app(app=app, port=8030)

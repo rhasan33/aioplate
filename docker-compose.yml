@@ -18,26 +18,9 @@ services:
       - redis
   
   db:
-    image: postgres:11.4-alpine
+    image: mongo:4.4.5-bionic
     environment:
-      - POSTGRES_USER=sample_user
-      - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=sample_db
+      - MONGO_INITDB_ROOT_USERNAME=sample_user
+      - MONGO_INITDB_ROOT_PASSWORD=12345
     ports:
-      - 5433:5432
-  
-  redis:
-    image: redis:5-alpine
-    ports:
-      - 6377:6379
-  
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    ports:
-      - "8031:15672"
-      - "5672:5672"
-      - "5671:5671"
-    environment:
-      - RABBITMQ_DEFAULT_PASS=mypass
-      - RABBITMQ_DEFAULT_USER=myuser
-      - RABBITMQ_DEFAULT_VHOST=myvhost
+      - 27018:27017
