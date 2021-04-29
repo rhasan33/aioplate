@@ -39,9 +39,9 @@ async def on_start_up(application: Application):
         db.connect()
         application['db'] = db
         logger.info('db connection completed')
-    except (ConnectionError, Exception):
+    except ConnectionError:
         logger.info('trying to establish connection after 2 sec')
-        await asyncio.sleep(2)
+        await asyncio.sleep(10)
 
 
 async def on_app_close(application: Application):
@@ -54,9 +54,9 @@ async def on_app_close(application: Application):
         logger.info('redis connection closed')
         application['db'].close()
         logger.info('db connection closed')
-    except (Exception, ConnectionError) as e:
+    except ConnectionError as e:
         logger.info(f'trying to reconnect: {e}')
-        await asyncio.sleep(2)
+        await asyncio.sleep(10)
 
 app = Application(loop=loop)
 app.on_startup.append(on_start_up)
