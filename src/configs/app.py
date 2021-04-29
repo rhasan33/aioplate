@@ -8,4 +8,4 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_NAME = os.environ.get('DB_NAME')
 DB_PORT = os.environ.get('DB_PORT', 5432)
 DB_HOST = os.environ.get('DB_HOST', 'db')
-APP_SALT = os.environ.get('APP_SALT')
+V1_PATTERNS = '/api/v1'

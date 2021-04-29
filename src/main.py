@@ -6,11 +6,14 @@ from aiohttp import web
 from aiohttp.web import Application, json_response, run_app
 from aiohttp.web_request import Request
 from aiohttp.web_response import Response
+from aiohttp_middlewares import cors_middleware
+from aiohttp_middlewares.cors import DEFAULT_ALLOW_HEADERS
 
 import aio_pika
 import aioredis
 
 from configs import DEBUG, RABBITMQ_URL, REDIS_HOST, db
+from users.routes import user_routes
 
 loop = asyncio.get_event_loop()
 
@@ -58,7 +61,14 @@ async def on_app_close(application: Application):
         logger.info(f'trying to reconnect: {e}')
         await asyncio.sleep(2)
 
-app = Application(loop=loop)
+app = Application(
+    middlewares=[
+        cors_middleware(
+            allow_all=True,
+            allow_headers=DEFAULT_ALLOW_HEADERS + ('SECRET-KEY',)
+        ),
+    ]
+)
 app.on_startup.append(on_start_up)
 app.on_shutdown.append(on_app_close)
 
@@ -66,6 +76,7 @@ if DEBUG:
     logging.basicConfig(level=logging.DEBUG)
 
 app.add_routes([web.get('/', health_check)])
+app.add_routes(user_routes)
 
 if not DEBUG:
     run_app(app=app, port=8030)
