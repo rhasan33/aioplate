@@ -2,6 +2,7 @@ from peewee import CharField, BooleanField, Model
 from playhouse.postgres_ext import ArrayField
 
 from users.helpers import create_password, verify_password
+from configs import db
 
 
 class User(Model):
@@ -10,13 +11,12 @@ class User(Model):
     is_active = BooleanField(default=True)
     tags = ArrayField(field_class=CharField)
     name = CharField(max_length=150)
-    email = CharField(max_length=200)
+    email = CharField(max_length=200, index=True)
 
     class Meta:
-        indexes = (
-            ('email', True)
-        )
         table_name = 'users'
+        database = db
+
 
     @staticmethod
     def set_password(raw_password: str) -> str:

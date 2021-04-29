@@ -13,6 +13,7 @@ import aio_pika
 import aioredis
 
 from configs import DEBUG, RABBITMQ_URL, REDIS_HOST, db
+from middleware import render
 from users.routes import user_routes
 
 loop = asyncio.get_event_loop()
@@ -63,6 +64,7 @@ async def on_app_close(application: Application):
 
 app = Application(
     middlewares=[
+        render,
         cors_middleware(
             allow_all=True,
             allow_headers=DEFAULT_ALLOW_HEADERS + ('SECRET-KEY',)

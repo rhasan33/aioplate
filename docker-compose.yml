@@ -20,9 +20,9 @@ services:
   db:
     image: postgres:11.4-alpine
     environment:
-      - POSTGRES_USER=issue_ticket
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=issue_ticket
+      - POSTGRES_DB=sample
     ports:
       - 5420:5432
 

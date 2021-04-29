@@ -5,7 +5,7 @@ from users.views import UserListCreateView
 
 
 common_routes = [
-    web.view(f'{V1_PATTERNS}/user', UserListCreateView)
+    web.view(f'{V1_PATTERNS}/users', UserListCreateView)
 ]
 
 user_routes = common_routes
