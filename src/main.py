@@ -10,7 +10,7 @@ from aiohttp.web_response import Response
 import aio_pika
 import aioredis
 
-from configs import DEBUG, RABBITMQ_URL, REDIS_HOST, db
+from configs import DEBUG, RABBITMQ_URL, REDIS_HOST, db, AUTH_SERVICE
 
 loop = asyncio.get_event_loop()
 
